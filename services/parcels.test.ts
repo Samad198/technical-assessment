@@ -137,11 +137,10 @@ describe('Parcel service tests', async function () {
                     { xDimension: 4, yDimension: 4, zDimension: 2, weight: 4000 }, // price 10
                     { xDimension: 4, yDimension: 4, zDimension: 2, weight: 1000 }, // price 8
                     { xDimension: 4, yDimension: 4, zDimension: 2, weight: 4000 },
-                    { xDimension: 4, yDimension: 4, zDimension: 2, weight: 4000 },
                 ]
             const discountedOutput = await ParcelsService.getCost(mediumDiscountInput)
-            expect(discountedOutput.items[4] instanceof Discount).to.equal(true)
-            expect(discountedOutput.items[4].cost).to.equal(800)
+            expect(discountedOutput.items[3] instanceof Discount).to.equal(true)
+            expect(discountedOutput.items[3].cost).to.equal(-800)
             })
 
             xit('The coombination of discounts which saves the most money should be selected', async function () {
