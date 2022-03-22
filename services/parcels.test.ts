@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LargeParcel, MediumParcel, SmallParcel, XLParcel } from '../models/parcel'
+import { LargeParcel, MediumParcel, SmallParcel, XLParcel, SpeedyShipping } from '../models/parcel'
 import P from './parcels.services'
 const ParcelsService = P()
 
@@ -23,11 +23,12 @@ const input =
         { xDimension: 5, yDimension: 5, zDimension: 5 },
     ]
 let output
-
+let speedyOutput
 
 describe('Parcel service tests', async function () {
     before('Set any global variables as mocha does not allow to be declared inside describe', async function () {
         output = await ParcelsService.getCost(input)
+        speedyOutput = await ParcelsService.getCost(input, true)
     })
 
     describe('If the correct input is provided then the output should be a collection of items with their individual cost and type, aswell as total cost.', async function () {
@@ -43,9 +44,28 @@ describe('Parcel service tests', async function () {
         it('Should return a xl parcel when parcel dimensions add up to >= 100cm', async function () {
             expect(output.items[3] instanceof XLParcel).to.equal(true)
         })
+        it('Should not have a speedy shipping charge', async function () {
+            expect(output.items.length).to.equal(4)
+        })
         it('Total should be the sum of all the prices', async function () {
             expect(output.total).to.equal(300 + 800 + 1500 + 2500)
         })
+        describe('Speedy shipping', async function () {
+            it('Should double the cost of the order', async function () {
+                expect(speedyOutput.total).to.equal((300 + 800 + 1500 + 2500) * 2)
+            })
+            it('Should add an extra item to the output list', async function () {
+                expect(speedyOutput.items.length).to.equal(5)
+                expect(speedyOutput.items[4] instanceof SpeedyShipping).to.equal(true)
+            })
+            it('Should not impact the price of individual items', async function () {
+                expect(speedyOutput.items[0].cost).to.equal(300)
+                expect(speedyOutput.items[1].cost).to.equal(800)
+                expect(speedyOutput.items[2].cost).to.equal(1500)
+                expect(speedyOutput.items[3].cost).to.equal(2500)
+            })
+        })
+
     })
 
 

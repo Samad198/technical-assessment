@@ -43,3 +43,11 @@ export class XLParcel extends Item {
         
     }
 }
+
+export class SpeedyShipping extends Item {
+    constructor(items:Item[]) {
+        super()
+        this.cost = items.map(item=>item.cost).reduce((partialSum, a) => partialSum + a, 0)
+        this.type = 'Shipping'
+    }
+}

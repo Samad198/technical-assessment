@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LargeParcel, MediumParcel, SmallParcel, XLParcel } from './parcel'
+import { LargeParcel, MediumParcel, SmallParcel, SpeedyShipping, XLParcel } from './parcel'
 
 
 describe('Different parcel types should have the correct prices', async function () {
@@ -29,6 +29,15 @@ describe('Different parcel types should have the correct prices', async function
         it('Should return have a cost of $25', async function () {
             const xlParcel = new XLParcel()
             expect(xlParcel.cost).to.equal(2500)
+
+        })
+    })
+
+    describe('Speedy shipping', async function () {
+        it('Should return have a cost equal to the items passed to it', async function () {
+            const xlParcel = new XLParcel()
+            const speedyShipping = new SpeedyShipping([xlParcel,xlParcel,xlParcel])
+            expect(speedyShipping.cost).to.equal(7500)
 
         })
     })
