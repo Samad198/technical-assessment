@@ -33,3 +33,20 @@ describe('Different parcel types should have the correct prices', async function
         })
     })
 })
+
+
+
+describe('Items should have unique ids', async function () {
+    it('different parcels should have different ids', async function () {
+        const smallParcel1 = new SmallParcel()
+        const smallParcel2 = new SmallParcel()
+        const mediumParcel1 = new MediumParcel()
+        const mediumParcel2 = new MediumParcel()
+        expect(smallParcel1.id==smallParcel2.id).to.equal(false)
+        expect(smallParcel1.id==mediumParcel1.id).to.equal(false)
+        expect(smallParcel1.id==mediumParcel2.id).to.equal(false)
+        expect(mediumParcel1.id==mediumParcel2.id).to.equal(false)
+        expect(mediumParcel1.id==smallParcel2.id).to.equal(false)
+        expect(smallParcel2.id==mediumParcel2.id).to.equal(false)
+    })
+})
