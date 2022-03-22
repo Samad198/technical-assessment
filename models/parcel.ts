@@ -1,3 +1,4 @@
+import { calculateWeightCost } from "../utils/helpers";
 export class Item{
     cost:number // unit for cost is cent e.g $5 = 500
     type:string
@@ -11,7 +12,7 @@ export class Item{
 export class SmallParcel extends Item {
     constructor(weight:number) {
         super()
-        this.cost = 300
+        this.cost = 300 + calculateWeightCost(weight,1000,200)
         this.type = 'Small'
         
     }
@@ -20,7 +21,7 @@ export class SmallParcel extends Item {
 export class MediumParcel extends Item {
     constructor(weight:number) {
         super()
-        this.cost = 800
+        this.cost = 800 + calculateWeightCost(weight,3000,200)
         this.type = 'Medium'
         
     }
@@ -29,7 +30,7 @@ export class MediumParcel extends Item {
 export class LargeParcel extends Item {
     constructor(weight:number) {
         super()
-        this.cost = 1500
+        this.cost = 1500 + calculateWeightCost(weight,6000,200)
         this.type = 'Large'
         
     }
@@ -38,7 +39,7 @@ export class LargeParcel extends Item {
 export class XLParcel extends Item {
     constructor(weight:number) {
         super()
-        this.cost = 2500
+        this.cost = 2500 + calculateWeightCost(weight,10000,200)
         this.type = 'XL'
         
     }
