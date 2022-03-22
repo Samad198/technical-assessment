@@ -17,10 +17,10 @@ const expectThrowsAsync = async (method) => {
 // an input that contains a small parcel, a medium parcel, a large parcel, and an extra large parcel
 const input =
     [
-        { xDimension: 1, yDimension: 1, zDimension: 1 },
-        { xDimension: 4, yDimension: 4, zDimension: 2 },
-        { xDimension: 5, yDimension: 5, zDimension: 3 },
-        { xDimension: 5, yDimension: 5, zDimension: 5 },
+        { xDimension: 1, yDimension: 1, zDimension: 1, weight: 500 },
+        { xDimension: 4, yDimension: 4, zDimension: 2, weight: 1000 },
+        { xDimension: 5, yDimension: 5, zDimension: 3, weight: 1000 },
+        { xDimension: 5, yDimension: 5, zDimension: 5, weight: 1000 },
     ]
 let output
 let speedyOutput
@@ -72,14 +72,25 @@ describe('Parcel service tests', async function () {
 
     describe('Errors should be thrown if invalid inputs are provided', async function () {
         it('Should return an error if all dimensions are not provided for any object', async function () {
-            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: undefined }]))
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: undefined, weight:500 }]))
         })
         it('Should return an error if any dimensions are 0 ', async function () {
-            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 0 }]))
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 0, weight:500 }]))
         })
         it('Should return an error if any dimensions are not a number ', async function () {
             // @ts-ignore
-            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: "adadsd", yDimension: 1, zDimension: 1 }]))
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: "adadsd", yDimension: 1, zDimension: 1, weight:500 }]))
+        })
+        it('Should return an error if weight is not defined', async function () {
+            // @ts-ignore
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 1 }]))
+        })
+        it('Should return an error if weight is 0', async function () {
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 1 ,weight:0}]))
+        })
+        it('Should return an error if weight is not a number', async function () {
+            // @ts-ignore
+            await expectThrowsAsync(ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 1 ,weight:"dad"}]))
         })
 
     })

@@ -4,6 +4,7 @@ interface parcelInput {
     xDimension: number,
     yDimension: number,
     zDimension: number,
+    weight:number
 }
 
 const ParcelsService = () => {
@@ -11,7 +12,7 @@ const ParcelsService = () => {
         async getCost(parcels: parcelInput[],speedyShipping=false): Promise<{ items: Item[], total: number }> {
             try {
                 const items = parcels.map(parcel => {
-                    const { xDimension, yDimension, zDimension } = parcel
+                    const { xDimension, yDimension, zDimension, weight } = parcel
                     if (!xDimension || !yDimension || !zDimension) {
                         throw 'Error: an input parcel does not contain a dimension. Dimensions are required'
                     }
@@ -19,10 +20,10 @@ const ParcelsService = () => {
                         throw 'Error: dimensions must be numbers'
                     }
                     const parcelDimensions = xDimension * yDimension * zDimension
-                    if (parcelDimensions < 10) return new SmallParcel()
-                    else if (parcelDimensions < 50) return new MediumParcel()
-                    else if (parcelDimensions < 100) return new LargeParcel()
-                    else return new XLParcel()
+                    if (parcelDimensions < 10) return new SmallParcel(weight)
+                    else if (parcelDimensions < 50) return new MediumParcel(weight)
+                    else if (parcelDimensions < 100) return new LargeParcel(weight)
+                    else return new XLParcel(weight)
                 })
                 if(speedyShipping){
                     items.push(new SpeedyShipping(items))

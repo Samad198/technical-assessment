@@ -9,7 +9,7 @@ export class Item{
 }
 
 export class SmallParcel extends Item {
-    constructor() {
+    constructor(weight:number) {
         super()
         this.cost = 300
         this.type = 'Small'
@@ -18,7 +18,7 @@ export class SmallParcel extends Item {
 }
 
 export class MediumParcel extends Item {
-    constructor() {
+    constructor(weight:number) {
         super()
         this.cost = 800
         this.type = 'Medium'
@@ -27,7 +27,7 @@ export class MediumParcel extends Item {
 }
 
 export class LargeParcel extends Item {
-    constructor() {
+    constructor(weight:number) {
         super()
         this.cost = 1500
         this.type = 'Large'
@@ -36,7 +36,7 @@ export class LargeParcel extends Item {
 }
 
 export class XLParcel extends Item {
-    constructor() {
+    constructor(weight:number) {
         super()
         this.cost = 2500
         this.type = 'XL'
