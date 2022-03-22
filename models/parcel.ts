@@ -61,3 +61,11 @@ export class SpeedyShipping extends Item {
         this.type = 'Shipping'
     }
 }
+
+export class Discount extends Item {
+    constructor(cost) {
+        super()
+        this.cost = -cost
+        this.type = 'Discount'
+    }
+}

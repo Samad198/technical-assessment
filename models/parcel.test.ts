@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LargeParcel, MediumParcel, SmallParcel, SpeedyShipping, XLParcel,HeavyParcel } from './parcel'
+import { LargeParcel, MediumParcel, SmallParcel, SpeedyShipping, XLParcel,HeavyParcel, Discount } from './parcel'
 
 describe('Parcel Model Tests', async function () {
     describe('Different parcel types should have the correct prices', async function () {
@@ -104,6 +104,15 @@ describe('Parcel Model Tests', async function () {
                 const xlParcel = new XLParcel(500)
                 const speedyShipping = new SpeedyShipping([xlParcel, xlParcel, xlParcel])
                 expect(speedyShipping.cost).to.equal(7500)
+
+            })
+        })
+
+        describe('Discount', async function () {
+            it('Should have a cost value equal to the negative of what is passed in', async function () {
+                const xlParcel = new XLParcel(500)
+                const discount = new Discount(xlParcel.cost)
+                expect(xlParcel.cost+discount.cost).to.equal(0)
 
             })
         })
