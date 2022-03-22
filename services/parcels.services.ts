@@ -1,5 +1,5 @@
 
-import { SmallParcel, MediumParcel, LargeParcel, XLParcel, Item } from '../models/parcel'
+import { SmallParcel, MediumParcel, LargeParcel, XLParcel, Item, SpeedyShipping } from '../models/parcel'
 interface parcelInput {
     xDimension: number,
     yDimension: number,
@@ -8,7 +8,7 @@ interface parcelInput {
 
 const ParcelsService = () => {
     return {
-        async getCost(parcels: parcelInput[]): Promise<{ items: Item[], total: number }> {
+        async getCost(parcels: parcelInput[],speedyShipping=false): Promise<{ items: Item[], total: number }> {
             try {
                 const items = parcels.map(parcel => {
                     const { xDimension, yDimension, zDimension } = parcel
@@ -24,6 +24,9 @@ const ParcelsService = () => {
                     else if (parcelDimensions < 100) return new LargeParcel()
                     else return new XLParcel()
                 })
+                if(speedyShipping){
+                    items.push(new SpeedyShipping(items))
+                }
                 const total = items.map(item => item.cost).reduce((partialSum, a) => partialSum + a, 0)
                 return { items, total }
             }
