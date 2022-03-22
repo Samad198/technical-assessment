@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LargeParcel, MediumParcel, SmallParcel, SpeedyShipping, XLParcel } from './parcel'
+import { LargeParcel, MediumParcel, SmallParcel, SpeedyShipping, XLParcel,HeavyParcel } from './parcel'
 
 describe('Parcel Model Tests', async function () {
     describe('Different parcel types should have the correct prices', async function () {
@@ -73,6 +73,29 @@ describe('Parcel Model Tests', async function () {
             it('Weight surplus of 5kg should a cost $35', async function () {
                 const xlParcel = new XLParcel(15000)
                 expect(xlParcel.cost).to.equal(3500)
+            })
+        })
+        describe('Heavy Parcel', async function () {
+            it('Should return have a cost of $50', async function () {
+                const heavyParcel = new HeavyParcel(500)
+                expect(heavyParcel.cost).to.equal(5000)
+
+            })
+            it('Weight of 49.999kg should a cost $50', async function () {
+                const heavyParcel = new HeavyParcel(49999)
+                expect(heavyParcel.cost).to.equal(5000)
+
+            })
+
+            it('Weight surplus of 4.5kg should a cost $54', async function () {
+                const heavyParcel = new HeavyParcel(54500)
+                expect(heavyParcel.cost).to.equal(5400)
+
+            })
+            it('Weight surplus of 5kg should a cost $55', async function () {
+                const heavyParcel = new HeavyParcel(55000)
+                expect(heavyParcel.cost).to.equal(5500)
+
             })
         })
 

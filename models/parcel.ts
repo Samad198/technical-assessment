@@ -45,6 +45,15 @@ export class XLParcel extends Item {
     }
 }
 
+export class HeavyParcel extends Item {
+    constructor(weight:number) {
+        super()
+        this.cost = 5000 + calculateWeightCost(weight,50000,100)
+        this.type = 'Heavy'
+        
+    }
+}
+
 export class SpeedyShipping extends Item {
     constructor(items:Item[]) {
         super()

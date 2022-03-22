@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LargeParcel, MediumParcel, SmallParcel, XLParcel, SpeedyShipping } from '../models/parcel'
+import { LargeParcel, MediumParcel, SmallParcel, XLParcel, SpeedyShipping, HeavyParcel } from '../models/parcel'
 import P from './parcels.services'
 const ParcelsService = P()
 
@@ -64,6 +64,43 @@ describe('Parcel service tests', async function () {
                 expect(speedyOutput.items[2].cost).to.equal(1500)
                 expect(speedyOutput.items[3].cost).to.equal(2500)
             })
+        })
+
+        describe('Output type should be heavy parcel if price of heavy parcel is less than the normal version for given dimensions', async function () {
+            it('heavy small parcel should use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 1, weight:500000 }])
+                expect(parcelOutput.items[0] instanceof HeavyParcel).to.equal(true)
+            })
+            it('heavy medium parcel should use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 4, yDimension: 4, zDimension: 2 , weight:5000000}])
+                expect(parcelOutput.items[0] instanceof HeavyParcel).to.equal(true)
+            })
+            it('heavy large parcel should use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 5, yDimension: 5, zDimension: 3, weight:5000000 }])
+                expect(parcelOutput.items[0] instanceof HeavyParcel).to.equal(true)
+            })
+            it('heavy xl parcel should use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 5, yDimension: 5, zDimension: 5 , weight:500000}])
+                expect(parcelOutput.items[0] instanceof HeavyParcel).to.equal(true)
+            })
+
+            it('lighter small parcel should not use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 1, yDimension: 1, zDimension: 1, weight:2000 }])
+                expect(parcelOutput.items[0] instanceof SmallParcel).to.equal(true)
+            })
+            it('lighter medium parcel should not use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 4, yDimension: 4, zDimension: 2 , weight:2000}])
+                expect(parcelOutput.items[0] instanceof MediumParcel).to.equal(true)
+            })
+            it('lighter large parcel should not use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 5, yDimension: 5, zDimension: 3, weight:2000 }])
+                expect(parcelOutput.items[0] instanceof LargeParcel).to.equal(true)
+            })
+            it('lighter xl parcel should not use heavy parcel instead', async function () {
+                const parcelOutput = await ParcelsService.getCost([{ xDimension: 5, yDimension: 5, zDimension: 5 , weight:2000}])
+                expect(parcelOutput.items[0] instanceof XLParcel).to.equal(true)
+            })
+            
         })
 
     })
