@@ -18,3 +18,9 @@
 - Make sure edge cases are covered
 
 - Move helper function for checking if functions throw errors to helpers file
+
+- Move code to create discounts to seperate service to follow single responsibility principle
+
+- Move code to generate total to seperate service for single responsibility
+
+- Change the Discount model to allow for tests that parcels are only used once per discount
